@@ -66,7 +66,7 @@
     <!-- BANNER HERO -->
     <section class="relative h-[85vh] flex items-center justify-center overflow-hidden">
         <div class="absolute inset-0 z-0">
-            <img src="Banner.webp" alt="Hero Background" onerror="this.src='https://images.unsplash.com/photo-1533470192478-9897d90d5ce6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'" class="w-full h-full object-cover object-center opacity-70" />
+            <img src="images/Banner.webp" alt="Hero Background" onerror="this.src='https://images.unsplash.com/photo-1533470192478-9897d90d5ce6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'" class="w-full h-full object-cover object-center opacity-70" />
             <div class="absolute inset-0 bg-gradient-to-b from-brand-light/30 via-brand-light/20 to-brand-light"></div>
         </div>
         <div class="relative z-10 text-center max-w-3xl px-6 mt-16">
@@ -174,12 +174,12 @@
         const WHATSAPP_NUMBER = "5518991359313";
         
         const PRODUCTS = [
-            { id: 1, name: "Terço de Pérolas Clássico", price: 40.0, description: "Elegância e fé em cada detalhe. Pérolas brancas com entremeio de Nossa Senhora.", image: "terco1.jpg", fallback: "https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?ixlib=rb-4.0.3&w=600" },
-            { id: 2, name: "Terço em Cristal Azul", price: 40.0, description: "Brilho celestial que inspira a oração. Cristais facetados de alta qualidade.", image: "terco2.jpg", fallback: "https://images.unsplash.com/photo-1544027993-37dbfe43562a?ixlib=rb-4.0.3&w=600" },
-            { id: 3, name: "Terço de Madeira Rústico", price: 40.0, description: "Simplicidade e conexão. Contas em madeira nobre e crucifixo detalhado.", image: "terco3.jpg", fallback: "https://images.unsplash.com/photo-1634141677335-ec12a970e303?ixlib=rb-4.0.3&w=600" },
-            { id: 4, name: "Pulseira Terço de Pérolas", price: 40.0, description: "Leve sua devoção sempre com você. Ajustável e extremamente delicada.", image: "terco4.jpg", fallback: "https://images.unsplash.com/photo-1573408302185-9127fe589ad5?ixlib=rb-4.0.3&w=600" },
-            { id: 5, name: "Terço de Cristal Boreal", price: 40.0, description: "Reflexos que lembram a luz divina. Ideal para momentos especiais.", image: "terco5.jpg", fallback: "https://images.unsplash.com/photo-1534008897995-27a23e859048?ixlib=rb-4.0.3&w=600" },
-            { id: 6, name: "Dezena de Pote/Carro", price: 40.0, description: "Proteção em seu caminho. Perfeito para pendurar no retrovisor ou presentear.", image: "terco6.jpg", fallback: "https://images.unsplash.com/photo-1589196931548-43d994e6cb81?ixlib=rb-4.0.3&w=600" }
+            { id: 1, name: "Terço de Pérolas Clássico", price: 40.0, description: "Elegância e fé em cada detalhe. Pérolas brancas com entremeio de Nossa Senhora.", image: "images/terco1.jpg", fallback: "https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?ixlib=rb-4.0.3&w=600" },
+            { id: 2, name: "Terço em Cristal Azul", price: 40.0, description: "Brilho celestial que inspira a oração. Cristais facetados de alta qualidade.", image: "images/terco2.jpg", fallback: "https://images.unsplash.com/photo-1544027993-37dbfe43562a?ixlib=rb-4.0.3&w=600" },
+            { id: 3, name: "Terço de Madeira Rústico", price: 40.0, description: "Simplicidade e conexão. Contas em madeira nobre e crucifixo detalhado.", image: "images/terco3.jpg", fallback: "https://images.unsplash.com/photo-1634141677335-ec12a970e303?ixlib=rb-4.0.3&w=600" },
+            { id: 4, name: "Pulseira Terço de Pérolas", price: 40.0, description: "Leve sua devoção sempre com você. Ajustável e extremamente delicada.", image: "images/terco4.jpg", fallback: "https://images.unsplash.com/photo-1573408302185-9127fe589ad5?ixlib=rb-4.0.3&w=600" },
+            { id: 5, name: "Terço de Cristal Boreal", price: 40.0, description: "Reflexos que lembram a luz divina. Ideal para momentos especiais.", image: "images/terco5.jpg", fallback: "https://images.unsplash.com/photo-1534008897995-27a23e859048?ixlib=rb-4.0.3&w=600" },
+            { id: 6, name: "Dezena de Pote/Carro", price: 40.0, description: "Proteção em seu caminho. Perfeito para pendurar no retrovisor ou presentear.", image: "images/terco6.jpg", fallback: "https://images.unsplash.com/photo-1589196931548-43d994e6cb81?ixlib=rb-4.0.3&w=600" }
         ];
 
         let cart = JSON.parse(localStorage.getItem('luxury_cart')) || [];
@@ -308,21 +308,63 @@
             window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        function handleChatSubmit(e) {
+        const WORKER_URL = "COLOQUE_AQUI_A_URL_DO_SEU_WORKER_CLOUDFLARE";
+
+        async function handleChatSubmit(e) {
             e.preventDefault();
             const input = document.getElementById('chat-input');
             const val = input.value.trim();
             if (!val) return;
             
             const cont = document.getElementById('chat-messages');
+            
+            // Adiciona mensagem do usuário
             cont.innerHTML += `<div class="flex justify-end"><div class="max-w-[85%] rounded-2xl px-4 py-2.5 text-sm bg-[#0A2B4E] text-white rounded-br-sm">${val}</div></div>`;
             input.value = '';
+            cont.scrollTop = cont.scrollHeight;
             
-            setTimeout(() => {
-                const whatsMsg = "Olá! Tenho uma dúvida sobre os terços: " + val;
-                cont.innerHTML += `<div class="flex justify-start"><div class="max-w-[85%] rounded-2xl px-4 py-2.5 text-sm bg-white border border-gray-100 text-brand-dark rounded-bl-sm shadow-sm">${\"Posso te ajudar melhor por lá! Clique <a class='underline text-brand-gold' href='https://wa.me/\"+WHATSAPP_NUMBER+\"?text=\"+encodeURIComponent(whatsMsg)+\"' target='_blank'>aqui para me chamar no WhatsApp</a> e dar continuidade!\"}</div></div>`;
-                cont.scrollTop = cont.scrollHeight;
-            }, 500);
+            // Adiciona indicador de "digitando..."
+            const typingId = 'typing-' + Date.now();
+            cont.innerHTML += `<div id="${typingId}" class="flex justify-start"><div class="max-w-[85%] rounded-2xl px-4 py-2.5 text-sm bg-white border border-gray-100 text-brand-dark rounded-bl-sm shadow-sm flex items-center gap-1"><span class="w-2 h-2 bg-gray-300 rounded-full animate-bounce"></span><span class="w-2 h-2 bg-gray-300 rounded-full animate-bounce" style="animation-delay: 0.2s"></span><span class="w-2 h-2 bg-gray-300 rounded-full animate-bounce" style="animation-delay: 0.4s"></span></div></div>`;
+            cont.scrollTop = cont.scrollHeight;
+
+            try {
+                // Resume os itens do carrinho para a IA saber o que o cliente está comprando
+                const cartSummary = cart.map(i => `${i.quantity}x ${i.name}`).join(', ');
+
+                // Chamada para a Cloudflare
+                const response = await fetch(WORKER_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        message: val, 
+                        cartItems: cartSummary 
+                    })
+                });
+
+                document.getElementById(typingId).remove(); // Remove o digitando
+
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    // Formata asteriscos (**) do Gemini para Negrito (<b>) no HTML
+                    const formattedReply = data.reply.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+
+                    cont.innerHTML += `<div class="flex justify-start"><div class="max-w-[85%] rounded-2xl px-4 py-2.5 text-sm bg-white border border-gray-100 text-brand-dark rounded-bl-sm shadow-sm">${formattedReply}</div></div>`;
+                } else {
+                    throw new Error("Erro na API");
+                }
+            } catch (err) {
+                document.getElementById(typingId)?.remove();
+                
+                // Fallback de erro
+                const whatsMsg = "Olá! Tentei falar com a consultora virtual mas não consegui: " + val;
+                const linkApp = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsMsg)}`;
+                const botResponse = `Poxa, estou com um pouco de lentidão agora. 😔 Clique <a class="underline text-brand-gold font-medium" href="${linkApp}" target="_blank">aqui para me chamar no WhatsApp</a>!`;
+
+                cont.innerHTML += `<div class="flex justify-start"><div class="max-w-[85%] rounded-2xl px-4 py-2.5 text-sm bg-white border border-gray-100 text-brand-dark rounded-bl-sm shadow-sm">${botResponse}</div></div>`;
+            }
+            
             cont.scrollTop = cont.scrollHeight;
         }
 
