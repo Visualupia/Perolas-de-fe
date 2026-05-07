@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-cursive: "Alex Brush", cursive;
+  
+  --color-brand-gold: #c39a48;
+  --color-brand-gold-hover: #b08736;
+  --color-brand-dark: #0A2B4E;
+  --color-brand-light: #F2F7F9;
+  --color-brand-white: #FFFFFF;
+}
+
+body {
+  background-color: var(--color-brand-light);
+  color: var(--color-brand-dark);
+}
