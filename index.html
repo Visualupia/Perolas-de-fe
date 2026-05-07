@@ -1,13 +1,345 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Google AI Studio App</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pérolas de Fé - Terços Exclusivos</title>
+    
+    <!-- Configuração do Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0A2B4E',
+                            light: '#F8F9FA',
+                            gold: '#C5A880'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        cursive: ['Great Vibes', 'cursive']
+                    }
+                }
+            }
+        }
+    </script>
 
+    <!-- Fontes do Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Estilos Adicionais Base -->
+    <style>
+        html { scroll-behavior: smooth; }
+        .cart-open { transform: translateX(0%); }
+        .cart-closed { transform: translateX(100%); }
+        .fade-in { opacity: 1; pointer-events: auto; }
+        .fade-out { opacity: 0; pointer-events: none; }
+        .bot-open { transform: scale(1) translateY(0); opacity: 1; pointer-events: auto; }
+        .bot-closed { transform: scale(0.95) translateY(20px); opacity: 0; pointer-events: none; }
+    </style>
+</head>
+<body class="relative min-h-screen overflow-x-hidden antialiased bg-white text-brand-dark">
+
+    <!-- CABEÇALHO (Header) -->
+    <header id="header" class="fixed top-0 w-full z-40 transition-all duration-300 py-6 bg-transparent">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <a href="https://www.instagram.com/perolasdefe.tercos/" target="_blank" class="hover:text-brand-gold transition-colors text-brand-dark">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            </a>
+            
+            <div class="flex flex-col items-center justify-center">
+                <span class="font-serif text-3xl tracking-[0.15em] uppercase font-semibold text-brand-dark leading-none">Pérolas</span>
+                <span class="font-cursive text-3xl text-brand-gold leading-none mt-0">de Fé</span>
+            </div>
+            
+            <button onclick="toggleCart(true)" class="relative hover:text-brand-gold transition-colors text-brand-dark">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                <span id="cart-badge" class="hidden absolute -top-2 -right-2 bg-brand-dark text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-medium">0</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- BANNER HERO -->
+    <section class="relative h-[85vh] flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="Banner.webp" alt="Hero Background" onerror="this.src='https://images.unsplash.com/photo-1533470192478-9897d90d5ce6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'" class="w-full h-full object-cover object-center opacity-70" />
+            <div class="absolute inset-0 bg-gradient-to-b from-brand-light/30 via-brand-light/20 to-brand-light"></div>
+        </div>
+        <div class="relative z-10 text-center max-w-3xl px-6 mt-16">
+            <p class="text-xs uppercase tracking-[0.3em] font-medium text-brand-gold mb-6">"O Amor Jamais Passará" - 1 Coríntios 13:8</p>
+            <h2 class="font-serif text-5xl md:text-7xl mb-8 leading-tight font-light text-brand-dark">Sua fé, <br/>elevada com devoção.</h2>
+            <button onclick="document.getElementById('colecao').scrollIntoView({ behavior: 'smooth' })" class="bg-brand-dark text-white px-10 py-4 uppercase tracking-widest text-xs font-semibold hover:bg-brand-gold transition-colors duration-300">Descobrir a Coleção</button>
+        </div>
+    </section>
+
+    <!-- GRADE DE PRODUTOS -->
+    <section id="colecao" class="py-24 px-6 max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+            <h3 class="font-serif text-3xl md:text-4xl font-light mb-4 text-brand-dark">Coleção Sagrada</h3>
+            <div class="h-[1px] w-16 bg-brand-gold mx-auto"></div>
+        </div>
+        <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16">
+            <!-- Renderizado via JS -->
+        </div>
+    </section>
+
+    <!-- RODAPÉ -->
+    <footer class="bg-brand-dark text-white py-16 text-center border-t border-brand-dark/10">
+        <div class="flex flex-col items-center justify-center mb-6">
+            <span class="font-serif text-3xl tracking-[0.15em] uppercase font-semibold text-white leading-none">Pérolas</span>
+            <span class="font-cursive text-3xl text-brand-gold leading-none mt-0">de Fé</span>
+        </div>
+        <p class="text-xs text-gray-400 font-light tracking-wider">&copy; <span id="year"></span> Pérolas de Fé. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- WPP FLOATING -->
+    <div class="fixed bottom-6 right-6 z-30">
+        <a href="https://wa.me/5518991359313?text=Ol%C3%A1!%20Estava%20navegando%20no%20site%20e%20me%20encantei%20com%20os%20ter%C3%A7os.%20Gostaria%20de%20tirar%20algumas%20d%C3%BAvidas." target="_blank" class="flex items-center justify-center w-14 h-14 bg-[#25D366] text-white rounded-full shadow-lg hover:bg-[#20b858] transition-colors relative">
+            <span class="absolute inset-0 w-full h-full rounded-full bg-[#25D366] opacity-40 animate-ping"></span>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="relative z-10"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+        </a>
+    </div>
+
+    <!-- CHATBOT FLOATING -->
+    <button onclick="toggleBot(true)" class="fixed bottom-6 left-6 z-30 flex items-center gap-2 bg-white p-2 pr-4 rounded-full shadow-lg border-2 border-[#0A2B4E] cursor-pointer hover:shadow-xl transition-all">
+        <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-brand-light border flex items-center justify-center overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" alt="Consultora" class="w-full h-full object-cover" />
+        </div>
+        <div class="flex flex-col text-left">
+            <span class="text-[10px] md:text-xs font-medium text-[#0A2B4E] leading-tight">Fale com a Consultora</span>
+        </div>
+    </button>
+
+   <!-- MODAL DO CHATBOT -->
+    <div id="bot-backdrop" onclick="toggleBot(false)" class="fixed inset-0 bg-black/20 backdrop-blur-sm z-50 transition-opacity duration-300 fade-out md:hidden"></div>
+    <div id="bot-modal" class="fixed bottom-0 left-0 w-full md:w-[380px] md:bottom-24 md:left-6 h-[80vh] md:h-[500px] bg-white rounded-t-2xl md:rounded-2xl shadow-2xl z-50 flex flex-col border border-gray-100 overflow-hidden transition-all duration-300 bot-closed origin-bottom-left">
+        <div class="bg-[#0A2B4E] text-white p-4 flex items-center justify-between shadow-sm z-10">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center overflow-hidden border-2 border-brand-gold">
+                    <img src="https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" alt="Consultora" class="w-full h-full object-cover" />
+                </div>
+                <div>
+                    <h3 class="font-medium text-sm">Consultora Virtual</h3>
+                    <p class="text-xs text-brand-gold/80">Pérolas de Fé</p>
+                </div>
+            </div>
+            <button onclick="toggleBot(false)" class="text-white/80 hover:text-white"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+        </div>
+        <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4 bg-brand-light/30">
+           <div class="flex justify-start">
+               <div class="max-w-[85%] rounded-2xl px-4 py-2.5 text-sm bg-white border border-gray-100 text-brand-dark rounded-bl-sm shadow-sm">
+                    Olá! A paz de Cristo! ✨ Como posso ajudar a encontrar o terço ideal para você hoje? P.S.: Como este é um arquivo HTML estático, suas mensagens gerarão um link para o WhatsApp.
+               </div>
+           </div>
+        </div>
+        <div class="p-3 bg-white border-t border-gray-100">
+            <form onsubmit="handleChatSubmit(event)" class="flex items-center gap-2">
+                <input type="text" id="chat-input" placeholder="Digite sua mensagem..." class="flex-1 bg-gray-50 border border-gray-200 rounded-full px-4 py-2.5 text-sm outline-none focus:border-[#0A2B4E]" />
+                <button type="submit" id="chat-submit" class="w-10 h-10 rounded-full bg-[#0A2B4E] text-white flex items-center justify-center hover:bg-[#0A2B4E]/90 flex-shrink-0">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL DO CARRINHO (Sidebar Direita) -->
+    <div id="cart-backdrop" onclick="toggleCart(false)" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 transition-opacity duration-300 fade-out cursor-pointer"></div>
+    <div id="cart-modal" class="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-50 flex flex-col transition-transform duration-300 cart-closed">
+        <div class="flex items-center justify-between p-6 border-b border-gray-100">
+            <h2 class="font-serif text-xl">Sua Sacola</h2>
+            <button onclick="toggleCart(false)" class="text-gray-400 hover:text-brand-dark transition-colors">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+        </div>
+        <div id="cart-content" class="flex-1 overflow-y-auto p-6 flex flex-col gap-6"></div>
+        <div id="cart-footer" class="border-t border-gray-100 p-6 bg-brand-light/50 hidden">
+            <div class="flex justify-between items-center mb-6">
+                <span class="text-gray-500 uppercase tracking-widest text-xs font-semibold">Subtotal</span>
+                <span id="cart-total" class="font-serif text-2xl font-medium">R$ 0,00</span>
+            </div>
+            <button onclick="checkout()" class="w-full bg-brand-dark text-white py-4 uppercase tracking-widest text-xs font-semibold hover:bg-brand-gold transition-colors flex items-center justify-center gap-2">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                Finalizar Pedido
+            </button>
+        </div>
+    </div>
+
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+        const WHATSAPP_NUMBER = "5518991359313";
+        
+        const PRODUCTS = [
+            { id: 1, name: "Terço de Pérolas Clássico", price: 40.0, description: "Elegância e fé em cada detalhe. Pérolas brancas com entremeio de Nossa Senhora.", image: "terco1.jpg", fallback: "https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?ixlib=rb-4.0.3&w=600" },
+            { id: 2, name: "Terço em Cristal Azul", price: 40.0, description: "Brilho celestial que inspira a oração. Cristais facetados de alta qualidade.", image: "terco2.jpg", fallback: "https://images.unsplash.com/photo-1544027993-37dbfe43562a?ixlib=rb-4.0.3&w=600" },
+            { id: 3, name: "Terço de Madeira Rústico", price: 40.0, description: "Simplicidade e conexão. Contas em madeira nobre e crucifixo detalhado.", image: "terco3.jpg", fallback: "https://images.unsplash.com/photo-1634141677335-ec12a970e303?ixlib=rb-4.0.3&w=600" },
+            { id: 4, name: "Pulseira Terço de Pérolas", price: 40.0, description: "Leve sua devoção sempre com você. Ajustável e extremamente delicada.", image: "terco4.jpg", fallback: "https://images.unsplash.com/photo-1573408302185-9127fe589ad5?ixlib=rb-4.0.3&w=600" },
+            { id: 5, name: "Terço de Cristal Boreal", price: 40.0, description: "Reflexos que lembram a luz divina. Ideal para momentos especiais.", image: "terco5.jpg", fallback: "https://images.unsplash.com/photo-1534008897995-27a23e859048?ixlib=rb-4.0.3&w=600" },
+            { id: 6, name: "Dezena de Pote/Carro", price: 40.0, description: "Proteção em seu caminho. Perfeito para pendurar no retrovisor ou presentear.", image: "terco6.jpg", fallback: "https://images.unsplash.com/photo-1589196931548-43d994e6cb81?ixlib=rb-4.0.3&w=600" }
+        ];
+
+        let cart = JSON.parse(localStorage.getItem('luxury_cart')) || [];
+
+        function formatPrice(price) {
+            return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(price);
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('products-grid');
+            PRODUCTS.forEach(p => {
+                grid.innerHTML += `
+                    <div class="group flex flex-col">
+                        <div class="relative aspect-[3/4] overflow-hidden mb-6 bg-gray-100">
+                            <img src="${p.image}" onerror="this.src='${p.fallback}'" alt="${p.name}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                            <button onclick="addToCart(${p.id})" class="absolute bottom-0 left-0 w-full bg-white/90 backdrop-blur-sm text-brand-dark py-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 text-xs tracking-widest uppercase font-semibold hover:text-brand-gold">Adicionar</button>
+                        </div>
+                        <h4 class="font-serif text-lg font-medium mb-2">${p.name}</h4>
+                        <p class="text-gray-500 text-sm mb-4 leading-relaxed font-light">${p.description}</p>
+                        <p class="font-medium mt-auto">${formatPrice(p.price)}</p>
+                    </div>
+                `;
+            });
+        }
+
+        function addToCart(id) {
+            const product = PRODUCTS.find(p => p.id === id);
+            const existing = cart.find(i => i.id === id);
+            if (existing) existing.quantity++;
+            else cart.push({ ...product, quantity: 1 });
+            saveCart();
+            toggleCart(true);
+        }
+
+        function updateQuantity(id, delta) {
+            const item = cart.find(i => i.id === id);
+            if (!item) return;
+            item.quantity = Math.max(0, item.quantity + delta);
+            if (item.quantity === 0) cart = cart.filter(i => i.id !== id);
+            saveCart();
+        }
+
+        function saveCart() {
+            localStorage.setItem('luxury_cart', JSON.stringify(cart));
+            renderCart();
+        }
+
+        function renderCart() {
+            const content = document.getElementById('cart-content');
+            const footer = document.getElementById('cart-footer');
+            const badge = document.getElementById('cart-badge');
+            
+            const count = cart.reduce((sum, i) => sum + i.quantity, 0);
+            const total = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+            
+            if (count > 0) {
+                badge.textContent = count;
+                badge.classList.remove('hidden');
+                footer.classList.remove('hidden');
+                document.getElementById('cart-total').textContent = formatPrice(total);
+                
+                content.innerHTML = cart.map(item => `
+                    <div class="flex gap-4">
+                        <div class="w-20 h-24 bg-gray-100 flex-shrink-0">
+                            <img src="${item.image}" onerror="this.src='${item.fallback}'" class="w-full h-full object-cover" />
+                        </div>
+                        <div class="flex-1 flex flex-col">
+                            <h4 class="font-medium text-sm font-serif leading-tight">${item.name}</h4>
+                            <p class="text-brand-gold text-sm mt-1 mb-auto">${formatPrice(item.price)}</p>
+                            <div class="flex items-center justify-between mt-2">
+                                <div class="flex items-center border border-gray-200 text-sm">
+                                    <button onclick="updateQuantity(${item.id}, -1)" class="px-2 py-1 text-gray-500 hover:text-brand-dark">-</button>
+                                    <span class="w-8 text-center font-medium">${item.quantity}</span>
+                                    <button onclick="updateQuantity(${item.id}, 1)" class="px-2 py-1 text-gray-500 hover:text-brand-dark">+</button>
+                                </div>
+                                <button onclick="updateQuantity(${item.id}, -999)" class="text-gray-300 hover:text-red-500"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                badge.classList.add('hidden');
+                footer.classList.add('hidden');
+                content.innerHTML = `<div class="h-full flex flex-col items-center justify-center text-gray-400 space-y-4">
+                    <svg width="48" height="48" class="opacity-20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                    <p class="font-light">Sua sacola está vazia.</p></div>`;
+            }
+        }
+
+        function toggleCart(show) {
+            const modal = document.getElementById('cart-modal');
+            const bg = document.getElementById('cart-backdrop');
+            if (show) {
+                modal.classList.remove('cart-closed');
+                bg.classList.remove('fade-out');
+                bg.classList.add('fade-in');
+            } else {
+                modal.classList.add('cart-closed');
+                bg.classList.remove('fade-in');
+                bg.classList.add('fade-out');
+            }
+        }
+
+        function toggleBot(show) {
+            const modal = document.getElementById('bot-modal');
+            const bg = document.getElementById('bot-backdrop');
+            if (show) {
+                modal.classList.remove('bot-closed');
+                modal.classList.add('bot-open');
+                bg.classList.remove('fade-out');
+                bg.classList.add('fade-in');
+            } else {
+                modal.classList.remove('bot-open');
+                modal.classList.add('bot-closed');
+                bg.classList.remove('fade-in');
+                bg.classList.add('fade-out');
+            }
+        }
+
+        function checkout() {
+            if (cart.length === 0) return;
+            let msg = "Olá! Gostaria de finalizar meu pedido:\n\n";
+            const total = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+            cart.forEach(i => { msg += `${i.quantity}x ${i.name} - ${formatPrice(i.price * i.quantity)}\n`; });
+            msg += `\n*Total: ${formatPrice(total)}*`;
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function handleChatSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('chat-input');
+            const val = input.value.trim();
+            if (!val) return;
+            
+            const cont = document.getElementById('chat-messages');
+            cont.innerHTML += `<div class="flex justify-end"><div class="max-w-[85%] rounded-2xl px-4 py-2.5 text-sm bg-[#0A2B4E] text-white rounded-br-sm">${val}</div></div>`;
+            input.value = '';
+            
+            setTimeout(() => {
+                const whatsMsg = "Olá! Tenho uma dúvida sobre os terços: " + val;
+                cont.innerHTML += `<div class="flex justify-start"><div class="max-w-[85%] rounded-2xl px-4 py-2.5 text-sm bg-white border border-gray-100 text-brand-dark rounded-bl-sm shadow-sm">${\"Posso te ajudar melhor por lá! Clique <a class='underline text-brand-gold' href='https://wa.me/\"+WHATSAPP_NUMBER+\"?text=\"+encodeURIComponent(whatsMsg)+\"' target='_blank'>aqui para me chamar no WhatsApp</a> e dar continuidade!\"}</div></div>`;
+                cont.scrollTop = cont.scrollHeight;
+            }, 500);
+            cont.scrollTop = cont.scrollHeight;
+        }
+
+        window.addEventListener('scroll', () => {
+            const h = document.getElementById('header');
+            if (window.scrollY > 50) {
+                h.classList.add('bg-white/90', 'backdrop-blur-md', 'shadow-sm', 'py-4');
+                h.classList.remove('bg-transparent', 'py-6');
+            } else {
+                h.classList.remove('bg-white/90', 'backdrop-blur-md', 'shadow-sm', 'py-4');
+                h.classList.add('bg-transparent', 'py-6');
+            }
+        });
+
+        // Init
+        renderProducts();
+        renderCart();
+    </script>
+</body>
+</html>
